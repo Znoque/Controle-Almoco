@@ -18,6 +18,7 @@ public class aluno {
     private String serie;
     private String idCartao;
     private String dia; //Dia que o aluno almoça
+    private byte[] imagem;
     private String pesquisa;
     private String filtro;
 
@@ -83,6 +84,14 @@ public class aluno {
 
     public void setDia(String dia) {
         this.dia = dia;
+    }
+    
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 
     public String getPesquisa() {

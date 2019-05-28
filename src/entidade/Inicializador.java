@@ -13,7 +13,7 @@ import telas.*;
  */
 public class Inicializador {
     public static void main(String[] args) {
-        Login logar = new Login();
+        TelaMenu logar = new TelaMenu();
         logar.setVisible(true);
     }
 }

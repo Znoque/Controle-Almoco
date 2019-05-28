@@ -13,7 +13,7 @@ import utilitarios.ConectaBanco;
  * @author Znoque
  */
 public class TelaMenu extends javax.swing.JFrame {
-    ConectaBanco conexao = new ConectaBanco(loginSalvo.getUsuario(), loginSalvo.getSenha());
+    ConectaBanco conexao = new ConectaBanco();
     /**
      * Creates new form TelaMenu
      */

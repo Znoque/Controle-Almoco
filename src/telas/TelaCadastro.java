@@ -1,54 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package telas;
 
-
+import entidade.aluno;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import modeloDao.DaoAluno;
-import entidade.aluno;
-import entidade.loginSalvo;
 import modeloDao.ModeloTabela;
 import utilitarios.ArduinoSerial;
 import utilitarios.ConectaBanco;
+import utilitarios.ManipularImagem;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 /**
  *
- * @author Znoque
+ * @author claud
  */
 public class TelaCadastro extends javax.swing.JFrame {
-    ConectaBanco conexao = new ConectaBanco(loginSalvo.getUsuario(), loginSalvo.getSenha());
+    ConectaBanco conexao = new ConectaBanco();
     aluno mod = new aluno();
     DaoAluno control = new DaoAluno();
+    BufferedImage imagem;
     String mat;
     boolean a = false;
     int flag = 0;
     /**
-     * Creates new form TelaCadastro2
+     * Creates new form TelaDados
      */
     public TelaCadastro() {
         initComponents();
-        preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos order by nome");
+        //jBoxPorta.setSelectedIndex(2);
+        jBoxPorta.setSelectedIndex(3);
+        preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos order by nome");
+        
     }
     
     public void cartao(){
-        ArduinoSerial arduino = new ArduinoSerial("COM3");
+        ArduinoSerial arduino = new ArduinoSerial("COM4");
         arduino.initialize();
         flag=0;
-        String cartao;
         if(a==true){
             while(flag<=30000){
                 System.out.println(flag);
-                cartao=arduino.read();
-                System.out.println(cartao);
-                lblId.setText(cartao);
+                System.out.println(arduino.read());
+                lblId.setText(arduino.read());
                 flag++;
             }
         }else{
@@ -57,7 +65,24 @@ public class TelaCadastro extends javax.swing.JFrame {
         }
         arduino.close();
     }
-
+    /*public void cartao(){
+        //ArduinoSerial arduino = new ArduinoSerial(String.valueOf(jBoxPorta.getSelectedItem()));
+        ArduinoSerial arduino = new ArduinoSerial("COM4");
+        arduino.initialize();
+        flag=0;
+        if(a==true){
+            while(flag<=30000){
+                System.out.println(flag);
+                System.out.println(arduino.read());
+                lblId.setText(arduino.read());
+                flag++;
+            }
+        }else{
+            arduino.close();
+        }
+        arduino.close();
+    }*/
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,28 +92,14 @@ public class TelaCadastro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel8 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jBoxDia = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        jBoxCurso = new javax.swing.JComboBox<>();
-        btnId = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jBoxPorta = new javax.swing.JComboBox<>();
-        txtPesquisa = new javax.swing.JTextField();
-        txtNome = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jBoxTurma = new javax.swing.JComboBox<>();
-        jBoxSerie = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        lblId = new javax.swing.JLabel();
-        txtMatricula = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        btnPesquisa = new javax.swing.JButton();
-        jBoxFiltro = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jBoxTurno = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        lblImagem = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnNovo = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
@@ -96,80 +107,70 @@ public class TelaCadastro extends javax.swing.JFrame {
         btnLimpar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableAluno = new javax.swing.JTable();
+        txtPesquisa = new javax.swing.JTextField();
+        btnPesquisa = new javax.swing.JButton();
+        txtNome = new javax.swing.JTextField();
+        txtMatricula = new javax.swing.JTextField();
+        btnId = new javax.swing.JButton();
+        btnImagem = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jBoxCurso = new javax.swing.JComboBox<>();
+        jBoxTurma = new javax.swing.JComboBox<>();
+        jBoxTurno = new javax.swing.JComboBox<>();
+        jBoxSerie = new javax.swing.JComboBox<>();
+        jBoxFiltro = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jBoxDia = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jBoxPorta = new javax.swing.JComboBox<>();
+        btnCOM = new javax.swing.JButton();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Dia do Almoço:");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Nome:");
-
-        jBoxDia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jBoxDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Segunda", "Terça", "Quarta", "Quinta", "Sexta" }));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("Série:");
-
-        jBoxCurso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jBoxCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agropecuária", "Agroecologia", "Edificações", "Informática" }));
-
-        btnId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnId.setText("ID");
-        btnId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIdActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel9.setText("Porta Arduino:");
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("Cartão:");
-
-        jBoxPorta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jBoxPorta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "COM3", "COM4", "COM5", "COM6", "COM7", "COM9" }));
-
-        txtPesquisa.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        txtNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Curso:");
-
-        jBoxTurma.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jBoxTurma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B", "U" }));
-
-        jBoxSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jBoxSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1ª", "2ª", "3ª", "4ª" }));
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Turma:");
-
-        lblId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        txtMatricula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("Turno:");
-
-        btnPesquisa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnPesquisa.setText("Pesquisar");
-        btnPesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisaActionPerformed(evt);
-            }
-        });
-
-        jBoxFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jBoxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Curso", "Turno", "Série", "Matrícula", "Almoço" }));
+        setTitle("Cadastro");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Matrícula:");
 
-        jBoxTurno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutino", "Vespertino" }));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Nome:");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("Cartão:");
+
+        lblId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setPreferredSize(new java.awt.Dimension(130, 150));
+        jPanel1.setVerifyInputWhenFocusTarget(false);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblImagem, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+        );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -256,6 +257,82 @@ public class TelaCadastro extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTableAluno);
 
+        txtPesquisa.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        btnPesquisa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnPesquisa.setText("Pesquisar");
+        btnPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisaActionPerformed(evt);
+            }
+        });
+
+        txtNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtMatricula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        btnId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnId.setText("ID");
+        btnId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIdActionPerformed(evt);
+            }
+        });
+
+        btnImagem.setText("Abrir");
+        btnImagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImagemActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Curso:");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Turma:");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Turno:");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setText("Série:");
+
+        jBoxCurso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jBoxCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agropecuária", "Agroecologia", "Edificações", "Informática" }));
+
+        jBoxTurma.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jBoxTurma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B", "U" }));
+
+        jBoxTurno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutino", "Vespertino" }));
+
+        jBoxSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jBoxSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1ª", "2ª", "3ª", "4ª" }));
+
+        jBoxFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jBoxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Curso", "Turno", "Série", "Matrícula" }));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setText("Dia do Almoço:");
+
+        jBoxDia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jBoxDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Segunda", "Terça", "Quarta", "Quinta", "Sexta" }));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("Porta Arduino:");
+
+        jBoxPorta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jBoxPorta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10" }));
+
+        btnCOM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCOM.setText("Set");
+        btnCOM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCOMActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -266,200 +343,334 @@ public class TelaCadastro extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnId)
-                                        .addGap(55, 55, 55)
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jBoxPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(5, 5, 5)
-                                        .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jBoxCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jBoxTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jBoxSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jBoxDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesquisa)
                         .addGap(18, 18, 18)
-                        .addComponent(jBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jBoxCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                            .addComponent(jBoxTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel3))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jBoxSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jBoxDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnId)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(5, 5, 5)
+                                .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBoxPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCOM)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnImagem)
+                        .addGap(57, 57, 57)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnId)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel9)
-                            .addComponent(jBoxPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)
+                        .addComponent(btnImagem))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                .addComponent(jLabel9)
+                                .addComponent(jBoxPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnCOM))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jBoxCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jBoxTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBoxSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBoxDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel1)
+                                .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                    .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(btnId))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel4))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jBoxCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jBoxTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBoxSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBoxDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnPesquisa)
                     .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(706, 612));
+        setSize(new java.awt.Dimension(717, 652));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        // TODO add your handling code here:
         conexao.conectar();
         PreparedStatement pst;
-        try {
-            int i = JOptionPane.showConfirmDialog(
-            null,
-            "Deseja Inserir?",
-            "Selecione uma Opção",
-            JOptionPane.OK_CANCEL_OPTION);
-            if(i == JOptionPane.OK_OPTION) {
-                //System.out.println("Clicou em Sim");
-                pst = conexao.conn.prepareStatement("insert into alunos (matricula2, nome, curso, turma, turno, serie, idcartao, dia)values(?, ?, ?, ?, ?, ?, ?, ?)");
-                pst.setInt(1, Integer.parseInt(txtMatricula.getText()));
-                pst.setString(2, txtNome.getText());
-                pst.setString(3, String.valueOf(jBoxCurso.getSelectedItem()));
-                pst.setString(4, String.valueOf(jBoxTurma.getSelectedItem()));
-                pst.setString(5, String.valueOf(jBoxTurno.getSelectedItem()));
-                pst.setString(6, String.valueOf(jBoxSerie.getSelectedItem()));
-                pst.setString(7, lblId.getText());
-                pst.setString(8, String.valueOf(jBoxDia.getSelectedItem()));
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(rootPane, "Salvo com sucesso!!");
-                limparTela();
-                preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos order by nome");
-            }else if(i == JOptionPane.CANCEL_OPTION) {
-                //System.out.println("Clicou em Cancel");
-                a = false;
-                cartao();
-                JOptionPane.showMessageDialog(rootPane, "Não foi criado nenhum  registro.");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(rootPane, "Erro na Inserção!\nERRO: "+ex);
-        } finally{
-            a = false;
-            cartao();
-            conexao.desconectar();
-            //aluno model = control.buscaAluno(mod);
-        }
-    }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        if(txtMatricula.getText().equals("0") || txtMatricula.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Não há nenhum cadastro selecionado!!");
-        }else{
-            conexao.conectar();
-            PreparedStatement pst;
+        if(imagem!=null){
             try {
                 int i = JOptionPane.showConfirmDialog(
-                null,
-                "Deseja Realmente Alterar?",
-                "Selecione uma Opção",
-                JOptionPane.OK_CANCEL_OPTION);
+                    null, 
+                    "Deseja Inserir?",
+                    "Selecione uma Opção",
+                    JOptionPane.OK_CANCEL_OPTION
+                );
                 if(i == JOptionPane.OK_OPTION) {
-                    pst = conexao.conn.prepareStatement("update alunos set matricula2=?,nome=?,curso=?,turma=?,turno=?,serie=?,idcartao=?,dia=? where matricula=?");
-                    
+                    mod.setImagem(ManipularImagem.getImgBytes(imagem));
+                    pst = conexao.conn.prepareStatement("insert into alunos (matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem)values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     pst.setInt(1, Integer.parseInt(txtMatricula.getText()));
                     pst.setString(2, txtNome.getText());
                     pst.setString(3, String.valueOf(jBoxCurso.getSelectedItem()));
                     pst.setString(4, String.valueOf(jBoxTurma.getSelectedItem()));
                     pst.setString(5, String.valueOf(jBoxTurno.getSelectedItem()));
                     pst.setString(6, String.valueOf(jBoxSerie.getSelectedItem()));
-                    pst.setString(7, lblId.getText());
-                    pst.setString(8, String.valueOf(jBoxDia.getSelectedItem()));
-                    pst.setInt(9, Integer.parseInt(mat));
-                    pst.execute();
-                    JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
-                    preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos order by nome");
+                    pst.setString(7, String.valueOf(jBoxDia.getSelectedItem()));
+                    pst.setString(8, lblId.getText());
+                    pst.setBytes(9, mod.getImagem());
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(rootPane, "Salvo com sucesso!!");
                     limparTela();
+                    preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos order by nome");
                 }else if(i == JOptionPane.CANCEL_OPTION) {
                     a = false;
                     cartao();
-                    JOptionPane.showMessageDialog(rootPane, "Não houve nenhuma alteração de registro.");
+                    JOptionPane.showMessageDialog(rootPane, "Não foi criado nenhum registro.");
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Erro na alteração dos dados!\nERRO: "+ex);
+                Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(rootPane, "Erro na Inserção!\nERRO: "+ex);
+            }finally{
+                a = false;
+                cartao();
+                //conexao.desconectar();
+                limparTela();
+            }
+        }else{
+            try {
+                int i = JOptionPane.showConfirmDialog(
+                    null, 
+                    "Deseja Inserir?",
+                    "Selecione uma Opção",
+                    JOptionPane.OK_CANCEL_OPTION
+                );
+                if(i == JOptionPane.OK_OPTION) {
+                    pst = conexao.conn.prepareStatement("insert into alunos (matricula, nome, curso, turma, turno, serie, dia, idcartao)values(?, ?, ?, ?, ?, ?, ?, ?)");
+                    pst.setInt(1, Integer.parseInt(txtMatricula.getText()));
+                    pst.setString(2, txtNome.getText());
+                    pst.setString(3, String.valueOf(jBoxCurso.getSelectedItem()));
+                    pst.setString(4, String.valueOf(jBoxTurma.getSelectedItem()));
+                    pst.setString(5, String.valueOf(jBoxTurno.getSelectedItem()));
+                    pst.setString(6, String.valueOf(jBoxSerie.getSelectedItem()));
+                    pst.setString(7, String.valueOf(jBoxDia.getSelectedItem()));
+                    pst.setString(8, lblId.getText());
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(rootPane, "Salvo com sucesso!!");
+                    limparTela();
+                    preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos order by nome");
+                }else if(i == JOptionPane.CANCEL_OPTION) {
+                    a = false;
+                    cartao();
+                    JOptionPane.showMessageDialog(rootPane, "Não foi criado nenhum registro.");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(rootPane, "Erro na Inserção!\nERRO: "+ex);
+            } finally{
+                a = false;
+                cartao();
+                //conexao.desconectar();
+                limparTela();
             }
         }
-        conexao.desconectar();
-        a = false;
-        cartao();
-        mod.setPesquisa("");
-        //aluno model = control.buscaAluno(mod);
+    }//GEN-LAST:event_btnNovoActionPerformed
+
+    private void btnPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisaActionPerformed
+        // TODO add your handling code here:
+        mod.setFiltro(String.valueOf(jBoxFiltro.getSelectedItem()));
+        String filtro = mod.getFiltro();
+        System.out.println(filtro);
+        switch(filtro){
+            case "Nome":
+                preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos where nome like'%"+txtPesquisa.getText()+"%' order by nome");
+                break;
+            case "Curso":
+                preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos where curso like'%"+txtPesquisa.getText()+"%' order by nome");
+                break;
+            case "Turno":
+                preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos where turno like'%"+txtPesquisa.getText()+"%' order by nome");
+                break;
+            case "Série":
+                preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos where serie like'%"+txtPesquisa.getText()+"%' order by nome");
+                break;
+            case "Matrícula":
+                preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos where matricula like'%"+txtPesquisa.getText()+"%' order by nome");
+                break;
+            case "Almoço":
+                preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos where dia like'%"+txtPesquisa.getText()+"%' order by nome");
+            break;
+            default:
+                JOptionPane.showMessageDialog(rootPane, "Não foi possivel encontrar esse filtro");
+        }
+    }//GEN-LAST:event_btnPesquisaActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        // TODO add your handling code here:
+        if(txtMatricula.getText().equals("0") || txtMatricula.getText().equals("")){
+           JOptionPane.showMessageDialog(null, "Não há nenhum cadastro selecionado!!");
+        }else{
+            conexao.conectar();
+            PreparedStatement pst;
+            if(imagem!=null){
+                try {
+                    int i = JOptionPane.showConfirmDialog(
+                        null,
+                        "Deseja Realmente Alterar?",
+                        "Selecione uma Opção",
+                        JOptionPane.OK_CANCEL_OPTION
+                    );
+                    if(i == JOptionPane.OK_OPTION) {
+                        mod.setImagem(ManipularImagem.getImgBytes(imagem));
+                        pst = conexao.conn.prepareStatement("update almoco.alunos set matricula=?,nome=?,curso=?,turma=?,turno=?,serie=?,dia=?,idcartao=?,imagem=? where (matricula=?)");
+                        //UPDATE `almoco`.`alunos` SET `matricula` = '102030' WHERE (`matricula` = '12345');
+                        pst.setInt(1, Integer.parseInt(txtMatricula.getText()));
+                        pst.setString(2, txtNome.getText());
+                        pst.setString(3, String.valueOf(jBoxCurso.getSelectedItem()));
+                        pst.setString(4, String.valueOf(jBoxTurma.getSelectedItem()));
+                        pst.setString(5, String.valueOf(jBoxTurno.getSelectedItem()));
+                        pst.setString(6, String.valueOf(jBoxSerie.getSelectedItem()));
+                        pst.setString(7, String.valueOf(jBoxDia.getSelectedItem()));
+                        pst.setString(8, lblId.getText());
+                        pst.setBytes(9, mod.getImagem());
+                        pst.setInt(10, Integer.parseInt(mat));
+                        pst.execute();
+                        JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
+                        preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos order by nome");
+                        limparTela();
+                    }else if(i == JOptionPane.CANCEL_OPTION) {
+                        a = false;
+                        cartao();
+                        JOptionPane.showMessageDialog(rootPane, "Não houve nenhuma alteração de registro.");
+                    } 
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro na alteração dos dados!\nERRO: "+ex);
+                } finally {
+                    a = false;
+                    cartao();
+                    //conexao.desconectar();
+                    limparTela();
+                }
+            }else{
+                try {
+                    int i = JOptionPane.showConfirmDialog(
+                        null, 
+                        "Deseja Realmente Alterar?",
+                        "Selecione uma Opção",
+                        JOptionPane.OK_CANCEL_OPTION
+                    );
+                    if(i == JOptionPane.OK_OPTION) {
+                        pst = conexao.conn.prepareStatement("update almoco.alunos set matricula=?,nome=?,curso=?,turma=?,turno=?,serie=?,dia=?,idcartao=? where (matricula=?)");
+                        pst.setInt(1, Integer.parseInt(txtMatricula.getText()));
+                        pst.setString(2, txtNome.getText());
+                        pst.setString(3, String.valueOf(jBoxCurso.getSelectedItem()));
+                        pst.setString(4, String.valueOf(jBoxTurma.getSelectedItem()));
+                        pst.setString(5, String.valueOf(jBoxTurno.getSelectedItem()));
+                        pst.setString(6, String.valueOf(jBoxSerie.getSelectedItem()));
+                        pst.setString(7, String.valueOf(jBoxDia.getSelectedItem()));
+                        pst.setString(8, lblId.getText());
+                        pst.setInt(9, Integer.parseInt(mat));
+                        pst.execute();
+                        JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
+                        preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos order by nome");
+                        limparTela();
+                    }else if(i == JOptionPane.CANCEL_OPTION) {
+                        a = false;
+                        cartao();
+                        JOptionPane.showMessageDialog(rootPane, "Não houve nenhuma alteração de registro.");
+                    } 
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro na alteração dos dados!\nERRO: "+ex);
+                } finally {
+                    a = false;
+                    cartao();
+                    //conexao.desconectar();
+                    limparTela();
+                }
+            }
+        }
     }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        // TODO add your handling code here:
+        limparTela();
+    }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
@@ -470,18 +681,18 @@ public class TelaCadastro extends javax.swing.JFrame {
             PreparedStatement pst;
             try {
                 int i = JOptionPane.showConfirmDialog(
-                    null,
+                    null, 
                     "Deseja Realmente Excluir?",
                     "Selecione uma Opção",
                     JOptionPane.OK_CANCEL_OPTION
                 );
                 if(i == JOptionPane.OK_OPTION) {
-                    //System.out.println("Clicou em Sim");
                     pst = conexao.conn.prepareStatement("delete from alunos where matricula=?");
                     pst.setInt(1, Integer.parseInt(mat));
                     pst.execute();
-                    JOptionPane.showMessageDialog(rootPane, "Dados excluidos com sucesso!");
-                    preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos order by nome");
+                    JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
+                    limparTela();
+                    preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos order by nome");
                 }else if(i == JOptionPane.CANCEL_OPTION) {
                     //System.out.println("Clicou em Cancel");
                     a = false;
@@ -490,24 +701,37 @@ public class TelaCadastro extends javax.swing.JFrame {
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao excluir dados!\nErro: "+ex.getMessage());
+            } finally{
+                a = false;
+                cartao();
+                //conexao.desconectar();
+                limparTela();
             }
-            conexao.desconectar();
         }
-        mod.setPesquisa("");
-        //aluno model = control.buscaAluno(mod);
-        limparTela();
     }//GEN-LAST:event_btnExcluirActionPerformed
-
-    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-        // TODO add your handling code here:
-        limparTela();
-    }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIdActionPerformed
         // TODO add your handling code here:
         a = true;
         cartao();
     }//GEN-LAST:event_btnIdActionPerformed
+
+    private void btnImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagemActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        int res = fc.showOpenDialog(null);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            File arquivo = fc.getSelectedFile();
+            try {
+                imagem = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 160, 150);
+                lblImagem.setIcon(new ImageIcon(imagem));
+            } catch (Exception ex) {
+                // System.out.println(ex.printStackTrace().toString());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Não foi selecionado nenhum arquivo.");
+        }
+    }//GEN-LAST:event_btnImagemActionPerformed
 
     private void jTableAlunoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAlunoMouseClicked
         // TODO add your handling code here:
@@ -516,15 +740,12 @@ public class TelaCadastro extends javax.swing.JFrame {
         conexao.executaSql("select * from alunos where nome='"+nome+"'");
         try {
             conexao.rs.first();
-            txtMatricula.setText(String.valueOf(conexao.rs.getInt("matricula2")));
+            txtMatricula.setText(String.valueOf(conexao.rs.getInt("matricula")));
             mat = conexao.rs.getString("matricula");
             txtNome.setText(conexao.rs.getString("nome"));
-            if(conexao.rs.getString("idcartao")!=""){
-                lblId.setText(conexao.rs.getString("idcartao"));
-            }else{
-                lblId.setText("");
-            }
-
+            lblId.setText(conexao.rs.getString("idcartao"));
+            ManipularImagem.exibiImagemLabel(conexao.rs.getBytes("imagem"), lblImagem);
+            
             //Verificando e setando o JBOXCurso
             if(conexao.rs.getString("curso").equals("Agropecuária")){
                 jBoxCurso.setSelectedIndex(0);
@@ -535,7 +756,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             }else{
                 jBoxCurso.setSelectedIndex(3);
             }
-
+            
             //Verificando e setando o JBOXTurma
             if(conexao.rs.getString("turma").equals("A")){
                 jBoxTurma.setSelectedIndex(0);
@@ -544,7 +765,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             }else{
                 jBoxTurma.setSelectedIndex(2);
             }
-
+        
             //Verificando e setando o JBOXSerie
             if(conexao.rs.getString("serie").equals("1ª")){
                 jBoxSerie.setSelectedIndex(0);
@@ -553,9 +774,9 @@ public class TelaCadastro extends javax.swing.JFrame {
             }else if(conexao.rs.getString("serie").equals("3ª")){
                 jBoxSerie.setSelectedIndex(2);
             }else{
-                jBoxSerie.setSelectedIndex(3);
+            jBoxSerie.setSelectedIndex(3);
             }
-
+        
             //Verificando e setando o JBOXjBoxTurno
             if(conexao.rs.getString("turno").equals("Matutino")){
                 jBoxTurno.setSelectedIndex(0);
@@ -575,41 +796,45 @@ public class TelaCadastro extends javax.swing.JFrame {
             }else{
                 jBoxDia.setSelectedIndex(4);
             }
-
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados\nErro: "+ex);
+        } finally {
+            conexao.desconectar();
         }
-        conexao.desconectar();
     }//GEN-LAST:event_jTableAlunoMouseClicked
 
-    private void btnPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisaActionPerformed
+    private void btnCOMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCOMActionPerformed
         // TODO add your handling code here:
-        mod.setFiltro(String.valueOf(jBoxFiltro.getSelectedItem()));
-        String filtro = mod.getFiltro();
-        System.out.println(filtro);
-        switch(filtro){
-            case "Nome":
-                preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos where nome like'%"+txtPesquisa.getText()+"%' order by nome");
-            break;
-            case "Curso":
-                preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos where curso like'%"+txtPesquisa.getText()+"%' order by nome");
-            break;
-            case "Turno":
-                preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos where turno like'%"+txtPesquisa.getText()+"%' order by nome");
-            break;
-            case "Série":
-                preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos where serie like'%"+txtPesquisa.getText()+"%' order by nome");
-            break;
-            case "Matrícula":
-                preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos where matricula2 like'%"+txtPesquisa.getText()+"%' order by nome");
-            break;
-            case "Almoço":
-                preencherTabela("select matricula, matricula2, nome, curso, turma, turno, serie, idcartao, dia from alunos where dia like'%"+txtPesquisa.getText()+"%' order by nome");
-            break;
+        //Verificando e setando o JBOXPorta
+        if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM1")){
+            jBoxPorta.setSelectedIndex(0);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM2")){
+            jBoxPorta.setSelectedIndex(1);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM3")){
+            jBoxPorta.setSelectedIndex(2);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM4")){
+            jBoxPorta.setSelectedIndex(3);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM5")){
+            jBoxPorta.setSelectedIndex(4);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM6")){
+            jBoxPorta.setSelectedIndex(5);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM7")){
+            jBoxPorta.setSelectedIndex(6);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM8")){
+            jBoxPorta.setSelectedIndex(7);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM9")){
+            jBoxPorta.setSelectedIndex(8);
+        }else{
+             jBoxPorta.setSelectedIndex(9);
         }
-    }//GEN-LAST:event_btnPesquisaActionPerformed
-
+    }//GEN-LAST:event_btnCOMActionPerformed
+    
     public void limparTela(){
+        imagem = null;
+        lblImagem.setText("");
+        //aluno model = control.buscaAluno(mod);
+        ManipularImagem.exibiImagemLabel(null, lblImagem);
         txtMatricula.setText("");
         txtNome.setText("");
         lblId.setText("");
@@ -619,6 +844,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jBoxTurno.setSelectedIndex(0);
         jBoxSerie.setSelectedIndex(0);
         jBoxDia.setSelectedIndex(0);
+        jBoxPorta.setSelectedIndex(2);
         mat = "";
         conexao.desconectar();
     }
@@ -632,7 +858,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             PreparedStatement pst;
             conexao.rs.first();
             do{
-                dados.add(new Object[]{conexao.rs.getInt("matricula2"), conexao.rs.getString("nome"), conexao.rs.getString("curso"), conexao.rs.getString("turma"), conexao.rs.getString("turno"), conexao.rs.getString("serie"), conexao.rs.getString("idcartao"), conexao.rs.getString("dia")});
+                dados.add(new Object[]{conexao.rs.getInt("matricula"), conexao.rs.getString("nome"), conexao.rs.getString("curso"), conexao.rs.getString("turma"), conexao.rs.getString("turno"), conexao.rs.getString("serie"), conexao.rs.getString("idcartao"), conexao.rs.getString("dia")});
             }while(conexao.rs.next());
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(rootPane, "Erro ao Preencher Tabela de Alunos\nAlunos não Encontrados\nErro: "+ex);
@@ -688,6 +914,8 @@ public class TelaCadastro extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -699,8 +927,10 @@ public class TelaCadastro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
+    private javax.swing.JButton btnCOM;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnId;
+    private javax.swing.JButton btnImagem;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnPesquisa;
@@ -720,10 +950,14 @@ public class TelaCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableAluno;
     private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblImagem;
     private javax.swing.JTextField txtMatricula;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPesquisa;

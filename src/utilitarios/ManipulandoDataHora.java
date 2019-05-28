@@ -13,9 +13,10 @@ import java.util.Date;
  *
  * @author Znoque
  */
-public class ManipulandoData {
+public class ManipulandoDataHora {
     private Date data = new Date();
     private String dia = "";
+    private String hora = "";
 
     public Date getData() {
         return data;
@@ -31,6 +32,14 @@ public class ManipulandoData {
 
     public void setDia(String dia) {
         this.dia = dia;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
         
     public String getDataFormatada(){
@@ -59,5 +68,11 @@ public class ManipulandoData {
             setDia("Sábado");
         }
         return getDia();
+    }
+    
+    public String getHoraFormatada(){
+        SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
+        String horaFormatada = formatarHora.format(getHora());
+        return horaFormatada;
     }
 }
