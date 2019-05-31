@@ -21,12 +21,20 @@ import java.util.TooManyListenersException;
  * 
  * @version 1.0
  */
-public class ArduinoSerial implements SerialPortEventListener {
+public class ArduinoSerial2 implements SerialPortEventListener {
 
     private SerialPort serialPort;
-    private final String namePort;
+    private String namePort;
 
-    public ArduinoSerial(String portName) {
+    public ArduinoSerial2(String portName) {
+        this.namePort = portName;
+    }
+    
+    public String getNamePort(){
+        return namePort;
+    }
+    
+    public void setNamePort(String portName ){
         this.namePort = portName;
     }
 

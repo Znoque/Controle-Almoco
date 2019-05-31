@@ -16,7 +16,6 @@ import java.util.Date;
 public class ManipulandoDataHora {
     private Date data = new Date();
     private String dia = "";
-    private String hora = "";
 
     public Date getData() {
         return data;
@@ -34,14 +33,6 @@ public class ManipulandoDataHora {
         this.dia = dia;
     }
 
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-        
     public String getDataFormatada(){
         SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
         String dataFormatada = formatar.format(getData());
@@ -71,8 +62,9 @@ public class ManipulandoDataHora {
     }
     
     public String getHoraFormatada(){
+        Date hora = new Date();
         SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
-        String horaFormatada = formatarHora.format(getHora());
+        String horaFormatada = formatarHora.format(hora);
         return horaFormatada;
     }
 }

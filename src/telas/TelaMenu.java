@@ -5,15 +5,11 @@
  */
 package telas;
 
-import entidade.loginSalvo;
-import utilitarios.ConectaBanco;
-
 /**
  *
  * @author Znoque
  */
 public class TelaMenu extends javax.swing.JFrame {
-    ConectaBanco conexao = new ConectaBanco();
     /**
      * Creates new form TelaMenu
      */
@@ -34,6 +30,7 @@ public class TelaMenu extends javax.swing.JFrame {
         btnControle = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        btnHistorico = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -65,6 +62,14 @@ public class TelaMenu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 3, 24)); // NOI18N
         jLabel1.setText("Controle do Almoço");
 
+        btnHistorico.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnHistorico.setText("Histórico");
+        btnHistorico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistoricoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,7 +80,8 @@ public class TelaMenu extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(btnCadastro)
                     .addComponent(btnControle)
-                    .addComponent(btnSair))
+                    .addComponent(btnSair)
+                    .addComponent(btnHistorico))
                 .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -88,8 +94,10 @@ public class TelaMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnControle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnHistorico)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSair)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(416, 339));
@@ -112,6 +120,12 @@ public class TelaMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void btnHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoricoActionPerformed
+        // TODO add your handling code here:
+        TelaPesquisa pesquisa = new TelaPesquisa();
+        pesquisa.setVisible(true);
+    }//GEN-LAST:event_btnHistoricoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,6 +153,7 @@ public class TelaMenu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -151,6 +166,7 @@ public class TelaMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastro;
     private javax.swing.JButton btnControle;
+    private javax.swing.JButton btnHistorico;
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables

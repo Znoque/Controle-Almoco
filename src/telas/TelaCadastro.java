@@ -42,46 +42,27 @@ public class TelaCadastro extends javax.swing.JFrame {
      */
     public TelaCadastro() {
         initComponents();
-        //jBoxPorta.setSelectedIndex(2);
         jBoxPorta.setSelectedIndex(3);
         preencherTabela("select matricula, nome, curso, turma, turno, serie, dia, idcartao, imagem from alunos order by nome");
         
     }
     
     public void cartao(){
-        ArduinoSerial arduino = new ArduinoSerial("COM4");
+        ArduinoSerial arduino = new ArduinoSerial(String.valueOf(jBoxPorta.getSelectedItem()));
         arduino.initialize();
         flag=0;
         if(a==true){
-            while(flag<=30000){
+            while(flag<=40000){
                 System.out.println(flag);
                 System.out.println(arduino.read());
                 lblId.setText(arduino.read());
                 flag++;
             }
         }else{
-            System.out.println("a => falsa");
             arduino.close();
         }
         arduino.close();
     }
-    /*public void cartao(){
-        //ArduinoSerial arduino = new ArduinoSerial(String.valueOf(jBoxPorta.getSelectedItem()));
-        ArduinoSerial arduino = new ArduinoSerial("COM4");
-        arduino.initialize();
-        flag=0;
-        if(a==true){
-            while(flag<=30000){
-                System.out.println(flag);
-                System.out.println(arduino.read());
-                lblId.setText(arduino.read());
-                flag++;
-            }
-        }else{
-            arduino.close();
-        }
-        arduino.close();
-    }*/
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -687,6 +668,11 @@ public class TelaCadastro extends javax.swing.JFrame {
                     JOptionPane.OK_CANCEL_OPTION
                 );
                 if(i == JOptionPane.OK_OPTION) {
+                    pst = conexao.conn.prepareStatement("delete from historico where matricula_aluno=?");
+                    pst.setInt(1, Integer.parseInt(mat));
+                    pst.execute();
+                    
+                    //Apagando da tabela Aluno
                     pst = conexao.conn.prepareStatement("delete from alunos where matricula=?");
                     pst.setInt(1, Integer.parseInt(mat));
                     pst.execute();
@@ -844,7 +830,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jBoxTurno.setSelectedIndex(0);
         jBoxSerie.setSelectedIndex(0);
         jBoxDia.setSelectedIndex(0);
-        jBoxPorta.setSelectedIndex(2);
+        jBoxPorta.setSelectedIndex(3);
         mat = "";
         conexao.desconectar();
     }
@@ -912,6 +898,10 @@ public class TelaCadastro extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TelaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

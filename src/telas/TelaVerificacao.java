@@ -6,8 +6,8 @@
 package telas;
 
 import entidade.aluno;
-import entidade.loginSalvo;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -29,28 +29,29 @@ public class TelaVerificacao extends javax.swing.JFrame {
     ManipulandoDataHora Mdata = new ManipulandoDataHora();
     String data = Mdata.getDataFormatada();
     String diaAtual = Mdata.getDiaSemana();
-    String hora = Mdata.getHoraFormatada();
+    String hora;
+    BufferedImage imagem;
     String mat;
     boolean a = false;
     int flag = 0;
     /**
-     * Creates new form TelaVerificação
+     * Creates new form TelaVerificacao
      */
     public TelaVerificacao() {
         initComponents();
+        jBoxPorta.setSelectedIndex(3);
     }
     
     public void cartao(){
-        ArduinoSerial arduino = new ArduinoSerial("COM3");
+        //ArduinoSerial arduino = new ArduinoSerial("COM4");
+        ArduinoSerial arduino = new ArduinoSerial(String.valueOf(jBoxPorta.getSelectedItem()));
         arduino.initialize();
         flag=0;
-        String cartao;
         if(a==true){
-            while(flag<=30000){
+            while(flag<=40000){
                 System.out.println(flag);
-                cartao=arduino.read();
-                System.out.println(cartao);
-                lblId.setText(cartao);
+                System.out.println(arduino.read());
+                lblId.setText(arduino.read());
                 flag++;
             }
         }else{
@@ -68,8 +69,6 @@ public class TelaVerificacao extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        lblId = new javax.swing.JLabel();
         btnId = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
@@ -98,13 +97,13 @@ public class TelaVerificacao extends javax.swing.JFrame {
         lblDia = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         lblData = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jBoxPorta = new javax.swing.JComboBox<>();
+        btnCOM = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Selecionar o Id: ");
-
-        lblId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         btnId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnId.setText("ID");
@@ -308,6 +307,25 @@ public class TelaVerificacao extends javax.swing.JFrame {
                 .addGap(47, 47, 47))
         );
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Selecionar o Id: ");
+
+        lblId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setText("Porta Arduino:");
+
+        jBoxPorta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jBoxPorta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10" }));
+
+        btnCOM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCOM.setText("Set");
+        btnCOM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCOMActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -316,7 +334,27 @@ public class TelaVerificacao extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBoxPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCOM)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnConsultar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnVerificar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLimpar)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -324,33 +362,25 @@ public class TelaVerificacao extends javax.swing.JFrame {
                         .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnId)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnConsultar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnVerificar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLimpar)
-                        .addContainerGap())))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jBoxPorta, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCOM, javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lblStatus, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.CENTER)
                     .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnId))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblStatus, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addComponent(btnId)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel3)
                     .addComponent(btnConsultar)
@@ -361,7 +391,7 @@ public class TelaVerificacao extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(586, 408));
+        setSize(new java.awt.Dimension(585, 437));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -370,11 +400,6 @@ public class TelaVerificacao extends javax.swing.JFrame {
         a = true;
         cartao();
     }//GEN-LAST:event_btnIdActionPerformed
-
-    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-        // TODO add your handling code here:
-        limparTela();
-    }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
@@ -386,16 +411,21 @@ public class TelaVerificacao extends javax.swing.JFrame {
             try{
                 conexao.rs.first();
                 mat = conexao.rs.getString("matricula");
-                lblMatricula.setText(String.valueOf(conexao.rs.getInt("matricula2")));
+                lblMatricula.setText(String.valueOf(conexao.rs.getInt("matricula")));
                 lblNome.setText(conexao.rs.getString("nome"));
                 lblCartao.setText(conexao.rs.getString("idcartao"));
-                ManipularImagem.exibiImagemLabel(conexao.rs.getBytes("imagem"), lblImagem);
                 lblCurso.setText(conexao.rs.getString("curso"));
                 lblTurma.setText(conexao.rs.getString("turma"));
                 lblTurno.setText(conexao.rs.getString("turno"));
                 lblSerie.setText(conexao.rs.getString("serie"));
                 lblDia.setText(conexao.rs.getString("dia"));
-                lblData.setText(conexao.rs.getString("dataVerificacao"));
+                ManipularImagem.exibiImagemLabel(conexao.rs.getBytes("imagem"), lblImagem);
+                //lblData.setText(conexao.rs.getString("dataVerificacao"));
+                if(conexao.rs.getString("dataVerificacao").equals("") || conexao.rs.getString("dataVerificacao").equals(null)){
+                    lblData.setText("");
+                }else{
+                    lblData.setText(conexao.rs.getString("dataVerificacao"));
+                }
             }catch (SQLException ex ){
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Consultar o Banco de Dados.\nErro: "+ex);
             }
@@ -405,36 +435,80 @@ public class TelaVerificacao extends javax.swing.JFrame {
 
     private void btnVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarActionPerformed
         // TODO add your handling code here:
-        if(lblDia.getText().equals(diaAtual) && data!=lblData.getText()){
-            lblStatus.setForeground(new Color(0,128,0));
-            lblStatus.setText("Liberado");
-            conexao.conectar();
-            try{
-                //Alterações tabela Aluno
-                pst = conexao.conn.prepareStatement("update alunos set dataVerificacao=? where matricula=?");
-                pst.setString(1, data);
-                pst.setInt(3, Integer.parseInt(mat));
-                pst.execute();
-                
-                //Alterações tabela historico id, dia, data, horario, matricula
-                pst = conexao.conn.prepareStatement("insert into historico (dia, datas, horario, matricula_aluno)values(?, ?, ?, ?)");
-                pst.setString(1, (diaAtual));
-                pst.setString(2, data);
-                pst.setString(3, hora);
-                pst.setInt(4,Integer.parseInt(mat));
-                pst.executeUpdate();
-            }catch(SQLException ex){
-                JOptionPane.showMessageDialog(null, "Falha ao Alterar a Data de Verificação no Banco de Dados\nERRO: "+ex);
+        if(lblDia.getText().equals(diaAtual)){
+            if(lblData.getText().equals(data) && lblData.getText()!=""){
+                lblStatus.setForeground(Color.red);
+                lblStatus.setText("Bloqueado");
+                JOptionPane.showMessageDialog(null, "Esse(a) Safado(a) já Almoçou Hoje!!\nData do Último Almoço: "+lblData.getText()+"\nData de Hoje: "+data);
+            }else{
+                lblStatus.setForeground(new Color(0,128,0));
+                lblStatus.setText("Liberado");
+                conexao.conectar();
+                hora = Mdata.getHoraFormatada();
+                try{
+                    //Alterações tabela Aluno
+                    pst = conexao.conn.prepareStatement("update alunos set dataVerificacao=? where matricula=?");
+                    pst.setString(1, data);
+                    pst.setInt(2, Integer.parseInt(mat));
+                    pst.execute();
+
+                    //Alterações tabela historico id, dia, data, horario, matricula
+                    pst = conexao.conn.prepareStatement("insert into historico (dia, datas, horario, matricula_aluno)values(?, ?, ?, ?)");
+                    pst.setString(1, (diaAtual));
+                    pst.setString(2, data);
+                    pst.setString(3, hora);
+                    pst.setInt(4,Integer.parseInt(mat));
+                    pst.executeUpdate();
+                    
+                    conexao.executaSql("select * from alunos where idcartao like '%"+lblId.getText()+"%'");
+                    conexao.rs.first();
+                    lblData.setText(conexao.rs.getString("dataVerificacao"));
+                }catch(SQLException ex){
+                    JOptionPane.showMessageDialog(null, "Falha ao Alterar a Data de Verificação no Banco de Dados\nERRO: "+ex);
+                }
             }
         }else{
             lblStatus.setForeground(Color.red);
             lblStatus.setText("Bloqueado");
+            JOptionPane.showMessageDialog(null, "BLOQUEADO!!\nDia de Almoço: "+lblDia.getText()+"\nDia de Hoje: "+diaAtual);
         }
         conexao.desconectar();
     }//GEN-LAST:event_btnVerificarActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        // TODO add your handling code here:
+        limparTela();
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnCOMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCOMActionPerformed
+        // TODO add your handling code here:
+        //Verificando e setando o JBOXPorta
+        if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM1")){
+            jBoxPorta.setSelectedIndex(0);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM2")){
+            jBoxPorta.setSelectedIndex(1);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM3")){
+            jBoxPorta.setSelectedIndex(2);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM4")){
+            jBoxPorta.setSelectedIndex(3);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM5")){
+            jBoxPorta.setSelectedIndex(4);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM6")){
+            jBoxPorta.setSelectedIndex(5);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM7")){
+            jBoxPorta.setSelectedIndex(6);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM8")){
+            jBoxPorta.setSelectedIndex(7);
+        }else if(String.valueOf(jBoxPorta.getSelectedItem()).equals("COM9")){
+            jBoxPorta.setSelectedIndex(8);
+        }else{
+            jBoxPorta.setSelectedIndex(9);
+        }
+    }//GEN-LAST:event_btnCOMActionPerformed
     
     public void limparTela(){
         ManipularImagem.exibiImagemLabel(null, lblImagem);
+        lblStatus.setText("");
         lblMatricula.setText("");
         lblCartao.setText("");
         lblNome.setText("");
@@ -445,8 +519,8 @@ public class TelaVerificacao extends javax.swing.JFrame {
         lblSerie.setText("");
         lblDia.setText("");
         lblData.setText("");
+        jBoxPorta.setSelectedIndex(3);
         mat = "";
-        conexao.desconectar();
     }
     
     /**
@@ -475,7 +549,6 @@ public class TelaVerificacao extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaVerificacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -486,12 +559,15 @@ public class TelaVerificacao extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCOM;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnId;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnVerificar;
+    private javax.swing.JComboBox<String> jBoxPorta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
