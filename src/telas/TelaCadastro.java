@@ -292,7 +292,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         jBoxSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1ª", "2ª", "3ª", "4ª" }));
 
         jBoxFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jBoxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Curso", "Turno", "Série", "Matrícula" }));
+        jBoxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Curso", "Turno", "Série", "Matrícula", "Almoço" }));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Dia do Almoço:");

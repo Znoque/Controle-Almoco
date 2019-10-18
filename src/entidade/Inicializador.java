@@ -5,7 +5,7 @@
  */
 package entidade;
 
-import telas.*;
+import telas.TelaSelecaoControle;
 
 /**
  *
@@ -13,7 +13,7 @@ import telas.*;
  */
 public class Inicializador {
     public static void main(String[] args) {
-        TelaMenu menu = new TelaMenu();
+        TelaSelecaoControle menu = new TelaSelecaoControle();
         menu.setVisible(true);
     }
 }
